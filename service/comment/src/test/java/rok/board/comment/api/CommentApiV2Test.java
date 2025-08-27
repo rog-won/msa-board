@@ -3,8 +3,12 @@ package rok.board.comment.api;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.junit.jupiter.api.Test;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestClient;
+import rok.board.comment.service.response.CommentPageResponse;
 import rok.board.comment.service.response.CommentResponse;
+
+import java.util.List;
 
 public class CommentApiV2Test {
     RestClient restClient = RestClient.create("http://localhost:9001");
@@ -44,6 +48,46 @@ public class CommentApiV2Test {
                 .retrieve()
                 .body(CommentResponse.class);
     }
+
+    @Test
+    void readAll(){
+        CommentPageResponse res = restClient.get()
+                .uri("/v2/comments?articleId=1&pageSize=10&page=50000")
+                .retrieve()
+                .body(CommentPageResponse.class);
+
+        System.out.println("res.getCommentCount() = " + res.getCommentCount());
+        for (CommentResponse comment : res.getComments()) {
+            System.out.println("comment.getCommentId() = " + comment.getCommentId());
+        }
+    }
+
+    @Test
+    void readAllInfiniteScroll(){
+        List<CommentResponse> res1 = restClient.get()
+                .uri("/v2/comments/infinite-scroll?articleId=1&pageSize=5")
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<CommentResponse>>() {
+                });
+
+        System.out.println("first call done.");
+        for (CommentResponse res : res1) {
+            System.out.println("res1.getCommentId() = " + res.getCommentId());
+        }
+
+        String lastPath = res1.getLast().getPath();
+        List<CommentResponse> res2 = restClient.get()
+                .uri("/v2/comments/infinite-scroll?articleId=1&pageSize=5&lastPath=%s".formatted(lastPath))
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<CommentResponse>>() {
+                });
+
+        System.out.println("second call done.");
+        for (CommentResponse res : res2) {
+            System.out.println("res2.getCommentId() = " + res.getCommentId());
+        }
+    }
+
 
     @Getter
     @AllArgsConstructor
