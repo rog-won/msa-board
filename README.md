@@ -24,7 +24,7 @@
 
     ===============================================================
     ||                                                           ||
-    ||    🚀 Building the Future of Enterprise Board Systems    ||
+    ||    🚀 Building the Future of Enterprise Board Systems     ||
     ||                                                           ||
     ===============================================================
 ```
