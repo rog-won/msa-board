@@ -14,12 +14,12 @@
                       ⚡ Modern • Scalable • Robust ⚡
 
     +---------------------------------------------------------------+
-    |  🔧 Tech Stack                    🌐 Services Architecture   |
-    |  - Spring Boot                    - User Service             |
-    |  - Spring Cloud                   - Board Service            |
-    |  - Docker                         - Comment Service          |
-    |  - Kubernetes                     - Auth Service             |
-    |  - Database Systems               - Gateway Service          |
+    |  🔧 Tech Stack                    🌐 Services Architecture    |
+    |  - Spring Boot                    - User Service              |
+    |  - Spring Cloud                   - Board Service             |
+    |  - Docker                         - Comment Service           |
+    |  - Kubernetes                     - Auth Service              |
+    |  - Database Systems               - Gateway Service           |
     +---------------------------------------------------------------+
 
     ===============================================================
