@@ -1,15 +1,31 @@
 package rok.board.like.api;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestClient;
+import rok.board.like.LikeApplication;
 import rok.board.like.service.response.ArticleLikeResponse;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@SpringBootTest(classes = LikeApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 class LikeApiTest {
-    RestClient restClient = RestClient.create("http://localhost:9002");
+
+    @LocalServerPort
+    int port;
+
+    RestClient restClient;
+
+    @BeforeEach
+    void setUp() {
+        this.restClient = RestClient.create("http://localhost:" + port);
+    }
 
     @Test
     void likeAndUnlikeTest(){
@@ -62,25 +78,22 @@ class LikeApiTest {
     }
 
     void likePerformanceTest(ExecutorService executorService, Long articleId, String lockType) throws InterruptedException {
-
         CountDownLatch latch = new CountDownLatch(3000);
         System.out.println(lockType + " start");
 
-        like(articleId, 1L, lockType);
+        like(articleId, 1L, lockType); // for init
 
         long start = System.nanoTime();
-        for(int i=0; i < 3000; i++) {
+        for (int i = 0; i < 3000; i++) {
             long userId = i + 2;
             executorService.submit(() -> {
                 like(articleId, userId, lockType);
                 latch.countDown();
             });
         }
-
         latch.await();
 
         long end = System.nanoTime();
-
         System.out.println("lockType = " + lockType + ", time = " + (end - start) / 1000000 + "ms");
         System.out.println(lockType + " end");
 

@@ -23,6 +23,7 @@ public class ArticleLikeService {
                 .orElseThrow();
     }
 
+
     /**
      * update 구문
      */
@@ -85,7 +86,7 @@ public class ArticleLikeService {
     }
 
     @Transactional
-    public void likeOptimisticLock(Long articleId, Long userId) {
+    public void likeOptimistickLock(Long articleId, Long userId) {
          articleLikeRepository.save(
                 ArticleLike.create(
                         snowflake.nextId(),
@@ -100,7 +101,7 @@ public class ArticleLikeService {
     }
 
     @Transactional
-    public void unlikeOptimisticLock(Long articleId, Long userId) {
+    public void unlikeOptimistickLock(Long articleId, Long userId) {
         articleLikeRepository.findByArticleIdAndUserId(articleId, userId)
                 .ifPresent(articleLike -> {
                     articleLikeRepository.delete(articleLike);
