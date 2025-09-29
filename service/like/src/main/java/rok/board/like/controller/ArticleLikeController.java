@@ -25,12 +25,11 @@ public class ArticleLikeController {
     ){
         return articleLikeService.count(articleId);
     }
-
     @PostMapping("/v1/article-likes/articles/{articleId}/users/{userId}/pessimistic-lock-1")
     public void likePessimisticLock1(
             @PathVariable("articleId") Long articleId,
             @PathVariable("userId") Long userId
-    ){
+    ) {
         articleLikeService.likePessimisticLock1(articleId, userId);
     }
 
@@ -38,7 +37,7 @@ public class ArticleLikeController {
     public void unlikePessimisticLock1(
             @PathVariable("articleId") Long articleId,
             @PathVariable("userId") Long userId
-    ){
+    ) {
         articleLikeService.unlikePessimisticLock1(articleId, userId);
     }
 
@@ -46,7 +45,7 @@ public class ArticleLikeController {
     public void likePessimisticLock2(
             @PathVariable("articleId") Long articleId,
             @PathVariable("userId") Long userId
-    ){
+    ) {
         articleLikeService.likePessimisticLock2(articleId, userId);
     }
 
@@ -54,23 +53,23 @@ public class ArticleLikeController {
     public void unlikePessimisticLock2(
             @PathVariable("articleId") Long articleId,
             @PathVariable("userId") Long userId
-    ){
+    ) {
         articleLikeService.unlikePessimisticLock2(articleId, userId);
     }
 
     @PostMapping("/v1/article-likes/articles/{articleId}/users/{userId}/optimistic-lock")
-    public void likeOptimisicLock(
+    public void likeOptimisticLock(
             @PathVariable("articleId") Long articleId,
             @PathVariable("userId") Long userId
-    ){
-        articleLikeService.likeOptimistickLock(articleId, userId);
+    ) {
+        articleLikeService.likeOptimisticLock(articleId, userId);
     }
 
     @DeleteMapping("/v1/article-likes/articles/{articleId}/users/{userId}/optimistic-lock")
-    public void unlikeOptimisicLock(
+    public void unlikeOptimisticLock(
             @PathVariable("articleId") Long articleId,
             @PathVariable("userId") Long userId
-    ){
-        articleLikeService.unlikeOptimistickLock(articleId, userId);
+    ) {
+        articleLikeService.unlikeOptimisticLock(articleId, userId);
     }
 }
